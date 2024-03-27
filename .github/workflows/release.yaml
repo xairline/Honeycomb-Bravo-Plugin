@@ -17,13 +17,18 @@ jobs:
       run: sudo apt-get install zip
 
     - name: Set VERSION variable
-      run: sed -i "s/VERSION = .*/VERSION = ${{ github.ref }}/" Honeycomb-Bravo-Plugin/globals.lua
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/}
+        sed -i "s/VERSION = \".*/VERSION = \"$VERSION\"/" Honeycomb-Bravo-Plugin/globals.lua
 
-    - name: Zip the code
-      run: zip -r release-${{ github.ref }}.zip .
-
+        - name: Zip the code
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          zip -r release-$VERSION.zip .
+  
     - name: Upload Release
       uses: actions/upload-artifact@v2
       with:
         name: release
-        path: release-${{ github.ref }}.zip
+        path: |
+          ${{ github.workspace }}/release-${GITHUB_REF#refs/tags/}.zip
