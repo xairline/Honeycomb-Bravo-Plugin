@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.ref_name }}
 
     steps:
     - name: Checkout code
@@ -16,19 +18,16 @@ jobs:
     - name: Install zip
       run: sudo apt-get install zip
 
-    - name: Set VERSION variable
+    - name: Set VERSION variable in Lua file
       run: |
-        VERSION=${GITHUB_REF#refs/tags/}
-        sed -i "s/VERSION = .*/VERSION = \"$VERSION\"/" Honeycomb-Bravo-Plugin/globals.lua
+        sed -i "s/VERSION = .*/VERSION = \"${{ env.VERSION }}\"/" Honeycomb-Bravo-Plugin/globals.lua
+        cat Honeycomb-Bravo-Plugin/globals.lua
 
     - name: Zip the code
-      run: |
-        VERSION=${GITHUB_REF#refs/tags/}
-        zip -r release-$VERSION.zip .
-  
+      run: zip -r release-$VERSION.zip .
+
     - name: Upload Release
       uses: actions/upload-artifact@v2
       with:
         name: release
-        path: |
-          ${{ github.workspace }}/release-${GITHUB_REF#refs/tags/}.zip
+        path: release-${{ env.VERSION }}.zip
