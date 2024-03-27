@@ -21,7 +21,7 @@ jobs:
       - name: Set VERSION variable in Lua file
         run: |
           sed -i "s/VERSION = .*/VERSION = \"${{ env.VERSION }}\"/" Honeycomb-Bravo-Plugin/globals.lua
-          cat Honeycomb-Bravo-Plugin/globals.lua
+          rm -rf .git
 
       - name: Zip the code
         run: zip -r release-${{ env.VERSION }}.zip .
