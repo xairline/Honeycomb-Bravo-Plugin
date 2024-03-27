@@ -19,7 +19,7 @@ jobs:
     - name: Set VERSION variable
       run: |
         VERSION=${GITHUB_REF#refs/tags/}
-        sed -i "s/VERSION = \".*/VERSION = \"$VERSION\"/" Honeycomb-Bravo-Plugin/globals.lua
+        sed -i "s/VERSION = .*/VERSION = \"$VERSION\"/" Honeycomb-Bravo-Plugin/globals.lua
 
         - name: Zip the code
         run: |
