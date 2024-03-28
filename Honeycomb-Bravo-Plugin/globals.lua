@@ -50,43 +50,54 @@ BUFFER_MODIFIED = false
 BITWISE = require 'bit'
 
 -- Default Datarefs
----- Leds
-BUS_VOLTAGE = dataref_table('sim/cockpit2/electrical/bus_volts')
----- Autopilot
-HDG = dataref_table('sim/cockpit2/autopilot/heading_mode')
-NAV = dataref_table('sim/cockpit2/autopilot/nav_status')
-APR = dataref_table('sim/cockpit2/autopilot/approach_status')
-REV = dataref_table('sim/cockpit2/autopilot/backcourse_status')
-ALT = dataref_table('sim/cockpit2/autopilot/altitude_hold_status')
-VS = dataref_table('sim/cockpit2/autopilot/vvi_status')
-IAS = dataref_table('sim/cockpit2/autopilot/autothrottle_on')
-AP = dataref_table('sim/cockpit2/autopilot/servos_on')
-AP_STATE = dataref_table("sim/cockpit/autopilot/autopilot_state") -- see https://developer.x-plane.com/article/accessing-the-x-plane-autopilot-from-datarefs/
----- Landing gear LEDs
-GEAR = dataref_table('sim/flightmodel2/gear/deploy_ratio')
-RETRACTABLE_GEAR = dataref_table('sim/aircraft/gear/acf_gear_retract')
----- Annunciator panel - top row
-MASTER_WARN = dataref_table('sim/cockpit2/annunciators/master_warning')
-FIRE = dataref_table('sim/cockpit2/annunciators/engine_fires')
-OIL_LOW_P = dataref_table('sim/cockpit2/annunciators/oil_pressure_low')
-FUEL_LOW_P = dataref_table('sim/cockpit2/annunciators/fuel_pressure_low')
-ANTI_ICE = dataref_table('sim/cockpit2/annunciators/pitot_heat')
-ANTI_ICE_FLIP = false
-ENG_STARTER = dataref_table('sim/cockpit2/engine/actuators/starter_hit')
-APU = dataref_table('sim/cockpit2/electrical/APU_running')
----- Annunciator panel - bottom row
-MASTER_CAUTION = dataref_table('sim/cockpit2/annunciators/master_caution')
-VACUUM = dataref_table('sim/cockpit2/annunciators/low_vacuum')
-HYDRO_LOW_P = dataref_table('sim/cockpit2/annunciators/hydraulic_pressure')
-AUX_FUEL_PUPM_L = dataref_table('sim/cockpit2/fuel/transfer_pump_left')
-AUX_FUEL_PUPM_R = dataref_table('sim/cockpit2/fuel/transfer_pump_right')
-PARKING_BRAKE = dataref_table('sim/cockpit2/controls/parking_brake_ratio')
-VOLT_LOW = dataref_table('sim/cockpit2/annunciators/low_voltage')
-VOLT_LOW_MIN = -1 -- disable minimum
-CANOPY = dataref_table('sim/flightmodel2/misc/canopy_open_ratio')
-DOORS = dataref_table('sim/flightmodel2/misc/door_open_ratio')
-DOORS_ARRAY = {}
-CABIN_DOOR = dataref_table('sim/cockpit2/annunciators/cabin_door_open')
+DATAREFS = {
+    ---- Leds
+    BUS_VOLTAGE = {
+        datarefs = { dataref_table('sim/cockpit2/electrical/bus_volts') },
+        operators = ">",
+        thresholds = 0,
+        conditions = "any"
+    },
+    ---- Autopilot
+    HDG = { datarefs = { dataref_table('sim/cockpit2/autopilot/heading_mode') } },
+    NAV = { datarefs = { dataref_table('sim/cockpit2/autopilot/nav_status') } },
+    APR = { datarefs = { dataref_table('sim/cockpit2/autopilot/approach_status') } },
+    REV = { datarefs = { dataref_table('sim/cockpit2/autopilot/backcourse_status') } },
+    ALT = { datarefs = { dataref_table('sim/cockpit2/autopilot/altitude_hold_status') } },
+    VS = { datarefs = { dataref_table('sim/cockpit2/autopilot/vvi_status') } },
+    IAS = { datarefs = { dataref_table('sim/cockpit2/autopilot/autothrottle_on') } },
+    AP = { datarefs = { dataref_table('sim/cockpit2/autopilot/servos_on') } },
+    AP_STATE = { datarefs = { dataref_table("sim/cockpit/autopilot/autopilot_state") } }, -- see https://developer.x-plane.com/article/accessing-the-x-plane-autopilot-from-datarefs}/
+    ---- Landing gear LEDs
+    GEAR = { datarefs = { dataref_table('sim/flightmodel2/gear/deploy_ratio') } },
+    RETRACTABLE_GEAR = { datarefs = { dataref_table('sim/aircraft/gear/acf_gear_retract') } },
+    ---- Annunciator panel - top row
+    MASTER_WARN = { datarefs = { dataref_table('sim/cockpit2/annunciators/master_warning') } },
+    FIRE = { datarefs = { dataref_table('sim/cockpit2/annunciators/engine_fires') } },
+    OIL_LOW_P = { datarefs = { dataref_table('sim/cockpit2/annunciators/oil_pressure_low') } },
+    FUEL_LOW_P = { datarefs = { dataref_table('sim/cockpit2/annunciators/fuel_pressure_low') } },
+    ANTI_ICE = { datarefs = { dataref_table('sim/cockpit2/annunciators/pitot_heat') } },
+    ANTI_ICE_FLIP = false,
+    ENG_STARTER = { datarefs = { dataref_table('sim/cockpit2/engine/actuators/starter_hit') } },
+    APU = { datarefs = { dataref_table('sim/cockpit2/electrical/APU_running') } },
+    ---- Annunciator panel - bottom row
+    MASTER_CAUTION = { datarefs = { dataref_table('sim/cockpit2/annunciators/master_caution') } },
+    VACUUM = { datarefs = { dataref_table('sim/cockpit2/annunciators/low_vacuum') } },
+    HYDRO_LOW_P = { datarefs = { dataref_table('sim/cockpit2/annunciators/hydraulic_pressure') } },
+    AUX_FUEL_PUPM = {
+        datarefs = {
+            dataref_table('sim/cockpit2/fuel/transfer_pump_right'),
+            dataref_table('sim/cockpit2/fuel/transfer_pump_left')
+        },
+        operators = "==",
+        thresholds = 2,
+        conditions = "any"
+    },
+    PARKING_BRAKE = { datarefs = { dataref_table('sim/cockpit2/controls/parking_brake_ratio') } },
+    VOLT_LOW = { datarefs = { dataref_table('sim/cockpit2/annunciators/low_voltage') } },
+    DOORS = { datarefs = { dataref_table('sim/flightmodel2/misc/door_open_ratio') } }
+}
+
 
 -- Misc
 DOOR_LAST_FLASHING = -1

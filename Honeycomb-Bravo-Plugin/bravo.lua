@@ -97,11 +97,11 @@ end
 
 function nav_hdg_led()
     -- HDG & NAV
-    if BITWISE.band(AP_STATE[0], 2) > 0 then
+    if BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 2) > 0 then
         -- Heading Select Engage
         set_led(LED.FCU_HDG, true)
         set_led(LED.FCU_NAV, false)
-    elseif BITWISE.band(AP_STATE[0], 512) > 0 or BITWISE.band(AP_STATE[0], 524288) > 0 then
+    elseif BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 512) > 0 or BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 524288) > 0 then
         -- Nav Engaged or GPSS Engaged
         set_led(LED.FCU_HDG, false)
         set_led(LED.FCU_NAV, true)
@@ -110,80 +110,22 @@ function nav_hdg_led()
         set_led(LED.FCU_HDG, false)
         set_led(LED.FCU_NAV, false)
     else
-        if PROFILE == "Toliss/32x" then
-            if int_to_bool(AP[0]) or int_to_bool(AP[1]) then
-                if HDG[0] == 101 then
-                    set_led(LED.FCU_HDG, true)
-                    set_led(LED.FCU_NAV, false)
-                else
-                    set_led(LED.FCU_HDG, false)
-                    set_led(LED.FCU_NAV, true)
-                end
-            else
-                set_led(LED.FCU_HDG, false)
-                set_led(LED.FCU_NAV, false)
-            end
-        else
-            -- HDG
-            set_led(LED.FCU_HDG, get_ap_state(HDG))
+        -- HDG
+        set_led(LED.FCU_HDG, check_datarefs(DATAREFS['AP']) and check_datarefs(DATAREFS['HDG']))
 
-            -- NAV
-            set_led(LED.FCU_NAV, get_ap_state(NAV))
-        end
-    end
-end
-
-function alt_led()
-    -- ALT
-    local alt_bool
-
-    if ALT[0] > 1 then
-        alt_bool = true
-    else
-        alt_bool = false
-    end
-
-    if PROFILE == "Toliss/32x" then
-        if ALT[0] == 0 or (not int_to_bool(AP[0]) and not int_to_bool(AP[1])) then
-            set_led(LED.FCU_ALT, false)
-        else
-            set_led(LED.FCU_ALT, true)
-        end
-    else
-        set_led(LED.FCU_ALT, alt_bool)
-    end
-end
-
-function vs_led()
-    -- VS
-    if PROFILE == "Toliss/32x" then
-        if VS[0] == 107 and (int_to_bool(AP[0]) or int_to_bool(AP[1])) then
-            set_led(LED.FCU_VS, true)
-        else
-            set_led(LED.FCU_VS, false)
-        end
-    else
-        set_led(LED.FCU_VS, get_ap_state(VS))
+        -- NAV
+        set_led(LED.FCU_NAV, check_datarefs(DATAREFS['AP']) and check_datarefs(DATAREFS['NAV']))
     end
 end
 
 function ias_led()
     -- IAS
-    if BITWISE.band(AP_STATE[0], 8) > 0 then
+    if BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 8) > 0 then
         -- Speed-by-pitch Engage AKA Flight Level Change
         -- See "Aliasing of Flight-Level Change With Speed Change" on https://developer.x-plane.com/article/accessing-the-x-plane-autopilot-from-datarefs/
         set_led(LED.FCU_IAS, true)
     else
-        set_led(LED.FCU_IAS, get_ap_state(IAS))
-    end
-end
-
-function ap_led()
-    -- AUTOPILOT
-    if PROFILE == "Toliss/32x" then
-        set_led(LED.FCU_AP, int_to_bool(AP[0]) or int_to_bool(AP[1]))
-    else
-        set_led(LED.FCU_AP, int_to_bool(AP[0]))
+        set_led(LED.FCU_IAS, check_datarefs(DATAREFS['AP']) and check_datarefs(DATAREFS['IAS']))
     end
 end
 
@@ -194,14 +136,14 @@ function landing_gear_led()
     for i = 1, 3 do
         gear_leds[i] = { nil, nil } -- green, red
 
-        if RETRACTABLE_GEAR[0] == 0 then
+        if DATAREFS.RETRACTABLE_GEAR.datarefs[0] == 0 then
             -- No retractable landing gear
         else
-            if GEAR[i - 1] == 0 then
+            if DATAREFS.GEAR.datarefs[i - 1] == 0 then
                 -- Gear stowed
                 gear_leds[i][1] = false
                 gear_leds[i][2] = false
-            elseif GEAR[i - 1] == 1 then
+            elseif DATAREFS.GEAR.datarefs[i - 1] == 1 then
                 -- Gear deployed
                 gear_leds[i][1] = true
                 gear_leds[i][2] = false
@@ -221,190 +163,14 @@ function landing_gear_led()
     set_led(LED.LDG_R_RED, gear_leds[3][2])
 end
 
-function fire_led()
-    -- ENGINE/APU FIRE
-    if PROFILE == 'Toliss/32x' then
-        my_fire = false
-        if apu_fire[20] > 0 then
-            my_fire = true
-        end
-        for i = 11, 17 do
-            if i == 11 or i == 13 or i == 15 or i == 17 then
-                if eng_fire[i] ~= nil and eng_fire[i] > 0 then
-                    my_fire = true
-                    break
-                end
-            end
-        end
-        set_led(LED.ANC_ENG_FIRE, my_fire)
-    else
-        set_led(LED.ANC_ENG_FIRE, array_has_true(FIRE))
-    end
-end
-
-function low_oil_pressure_led()
-    -- LOW OIL PRESSURE
-    if PROFILE == "Toliss/32x" then
-        low_oil_light = false
-        for i = 0, NUM_ENGINES - 1 do
-            if OIL_LOW_P[i] ~= nil and OIL_LOW_P[i] < 0.075 then
-                low_oil_light = true
-                break
-            end
-        end
-        set_led(LED.ANC_OIL, low_oil_light)
-    else
-        set_led(LED.ANC_OIL, array_has_true(OIL_LOW_P))
-    end
-end
-
-function low_fuel_pressure_led()
-    -- LOW FUEL PRESSURE
-    if PROFILE == "Toliss/32x" then
-        low_fuel_light = false
-        for i = 0, NUM_ENGINES - 1 do
-            if FUEL_LOW_P[i] ~= nil and FUEL_LOW_P[i] < 0.075 then
-                low_fuel_light = true
-                break
-            end
-        end
-        set_led(LED.ANC_FUEL, low_fuel_light)
-    else
-        set_led(LED.ANC_FUEL, array_has_true(FUEL_LOW_P))
-    end
-end
-
-function anti_ice_led()
-    -- ANTI ICE
-    if not ANTI_ICE_FLIP then
-        set_led(LED.ANC_ANTI_ICE, array_has_positives(ANTI_ICE, 10))
-    else
-        set_led(LED.ANC_ANTI_ICE, not array_has_positives(ANTI_ICE, 10))
-    end
-end
-
 function door_led()
     -- DOOR
-    local door_state = 0 -- 0 closed, 1 open, 2 moving
-
-    if CANOPY[0] > 0.01 then
-        if CANOPY[0] < 0.99 then
-            door_state = 2
-        else
-            door_state = 1
-        end
-    end
-
-    if door_state == 0 then
-        for i = 0, 9 do
-            if DOORS[i] > 0.01 then
-                if DOORS[i] < 0.99 then
-                    door_state = 2
-                else
-                    door_state = 1
-                end
-                break
-            end
-        end
-    end
-
-    if door_state == 0 then
-        for i = 0, 9 do
-            if DOORS_ARRAY[i] ~= nil then
-                for _, value in ipairs(DOORS_ARRAY[i]) do
-                    if value > 0.01 then
-                        if value < 0.99 then
-                            door_state = 2
-                        else
-                            door_state = 1
-                        end
-                        break
-                    end
-                end
-            end
-        end
-    end
-
-    if door_state == 0 then
-        if CABIN_DOOR[0] > 0.01 then
-            if CABIN_DOOR[0] < 0.99 then
-                door_state = 2
-            else
-                door_state = 1
-            end
-        end
-    end
-
-    if door_state == 2 then
-        set_led(LED.ANC_DOOR, DOOR_LAST_STATE)
-
-        if os.clock() * 1000 - DOOR_LAST_FLASHING > 200 then
-            DOOR_LAST_STATE = not DOOR_LAST_STATE
-            DOOR_LAST_FLASHING = os.clock() * 1000
-        end
-    else
-        set_led(LED.ANC_DOOR, door_state == 1)
-    end
-end
-
-function low_volt_led()
-    -- LOW VOLTS
-    if VOLT_LOW_MIN ~= -1 then
-        set_led(LED.ANC_VOLTS, VOLT_LOW[0] < VOLT_LOW_MIN)
-    else
-        set_led(LED.ANC_VOLTS, int_to_bool(VOLT_LOW[0]))
-    end
-end
-
-function vacuum_led()
-    -- VACUUM
-    if PROFILE == "Toliss/32x" then
-        if VACUUM[0] < 1 then
-            set_led(LED.ANC_VACUUM, true)
-        else
-            set_led(LED.ANC_VACUUM, false)
-        end
-    else
-        set_led(LED.ANC_VACUUM, int_to_bool(VACUUM[0]))
-    end
-end
-
-function low_hyd_led()
-    -- LOW HYD PRESSURE
-    if PROFILE == "Toliss/32x" then
-        low_hyd_light = true
-        for i = 0, 2 do
-            if HYDRO_LOW_P[i] > 2500 then
-                low_hyd_light = false
-                break
-            end
-        end
-        set_led(LED.ANC_HYD, low_hyd_light)
-    else
-        if SHOW_ANC_HYD then
-            set_led(LED.ANC_HYD, int_to_bool(HYDRO_LOW_P[0]))
-        else
-            -- For planes that don't have a hydraulic pressure annunciator
-            set_led(LED.ANC_HYD, false)
-        end
-    end
-end
-
-function aux_fuel_pump_led()
-    -- AUX FUEL PUMP
-    local aux_fuel_pump_bool
-
-    if AUX_FUEL_PUPM_L[0] == 2 or AUX_FUEL_PUPM_R[0] == 2 then
-        aux_fuel_pump_bool = true
-    else
-        aux_fuel_pump_bool = false
-    end
-
-    set_led(LED.ANC_AUX_FUEL, aux_fuel_pump_bool)
+    -- local door_state = 0 -- 0 closed, 1 open, 2 moving
+    set_led(LED.ANC_DOOR, check_datarefs(DATAREFS['DOORS']))
 end
 
 function handle_led_changes()
-    if not (BUS_VOLTAGE[0] > 0 or array_has_positives(BUS_VOLTAGE)) then
+    if not check_datarefs(DATAREFS['BUS_VOLTAGE']) then
         MASTER_STATE = false
         all_leds_off()
         send_hid_data()
@@ -412,27 +178,27 @@ function handle_led_changes()
     end
 
     nav_hdg_led()
-    vacuum_led()
-    low_hyd_led()
-    aux_fuel_pump_led()
-    set_led(LED.ANC_PRK_BRK, PARKING_BRAKE[0] > 0)
-    low_volt_led()
-    door_led()
-    alt_led()
-    vs_led()
     ias_led()
-    ap_led()
     landing_gear_led()
-    fire_led()
-    low_oil_pressure_led()
-    low_fuel_pressure_led()
-    anti_ice_led()
-    set_led(LED.FCU_APR, get_ap_state(APR))
-    set_led(LED.FCU_REV, get_ap_state(REV))
-    set_led(LED.ANC_MSTR_WARNG, int_to_bool(MASTER_WARN[0]))
-    set_led(LED.ANC_STARTER, array_has_true(ENG_STARTER))
-    set_led(LED.ANC_APU, int_to_bool(apu[0]))
-    set_led(LED.ANC_MSTR_CTN, int_to_bool(MASTER_CAUTION[0]))
+    door_led()
+    set_led(LED.ANC_VACUUM, check_datarefs(DATAREFS['VACUUM']))
+    set_led(LED.ANC_HYD, check_datarefs(DATAREFS['HYDRO_LOW_P']))
+    set_led(LED.ANC_AUX_FUEL, check_datarefs(DATAREFS['AUX_FUEL_PUPM']))
+    set_led(LED.ANC_PRK_BRK, check_datarefs(DATAREFS['PARKING_BRAKE']))
+    set_led(LED.ANC_VOLTS, check_datarefs(DATAREFS['VOLT_LOW']))
+    set_led(LED.FCU_ALT, check_datarefs(DATAREFS['AP']) and check_datarefs(DATAREFS['ALT']))
+    set_led(LED.FCU_VS, check_datarefs(DATAREFS['AP']) and check_datarefs(DATAREFS['VS']))
+    set_led(LED.FCU_AP, check_datarefs(DATAREFS['AP']))
+    set_led(LED.ANC_ENG_FIRE, check_datarefs(DATAREFS['FIRE']))
+    set_led(LED.ANC_OIL, check_datarefs(DATAREFS['OIL_LOW_P'], NUM_ENGINES))
+    set_led(LED.ANC_FUEL, check_datarefs(DATAREFS['FUEL_LOW_P'], NUM_ENGINES))
+    set_led(LED.ANC_ANTI_ICE, check_datarefs(DATAREFS['ANTI_ICE']))
+    set_led(LED.FCU_APR, check_datarefs(DATAREFS['APR']))
+    set_led(LED.FCU_REV, check_datarefs(DATAREFS['REV']))
+    set_led(LED.ANC_MSTR_WARNG, check_datarefs(DATAREFS['MASTER_WARN']))
+    set_led(LED.ANC_STARTER, check_datarefs(DATAREFS['ENG_STARTER']))
+    set_led(LED.ANC_APU, check_datarefs(DATAREFS['APU']))
+    set_led(LED.ANC_MSTR_CTN, check_datarefs(DATAREFS['MASTER_CAUTION']))
 
     -- If we have any LED changes, send them to the device
     if BUFFER_MODIFIED == true then

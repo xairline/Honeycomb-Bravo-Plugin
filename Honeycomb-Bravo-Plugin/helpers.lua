@@ -7,43 +7,6 @@ function int_to_bool(value)
     end
 end
 
-function get_ap_state(array)
-    if array[0] >= 1 then
-        return true
-    else
-        return false
-    end
-end
-
-function array_has_true(array, max_lenght)
-    if max_lenght == nil then
-        max_lenght = 16
-    end
-    for i = 0, max_lenght do
-        if array[i] == 1 then
-            return true
-        end
-    end
-
-    return false
-end
-
-function array_has_positives(array, max_lenght)
-    if max_lenght == nil then
-        max_lenght = 16
-    end
-    for i = 0, max_lenght do
-        if not array[i] then
-            write_log('ERROR array_has_positives: array[' .. i .. '] is nil')
-            break
-        end
-        if array[i] > 0.01 then
-            return true
-        end
-    end
-    return false
-end
-
 -- Function to split a string by a delimiter (in this case, a comma)
 function splitString(s, delimiter)
     local result = {}
@@ -74,16 +37,75 @@ function parseCSV(filePath)
     return data
 end
 
-
 function dumpTable(tbl, indent)
     if not indent then indent = 0 end
     for k, v in pairs(tbl) do
         formatting = string.rep("  ", indent) .. k .. ": "
         if type(v) == "table" then
             write_log(formatting)
-            dumpTable(v, indent+1)
+            dumpTable(v, indent + 1)
         else
             write_log(formatting .. tostring(v))
         end
     end
+end
+
+function check_datarefs(tbl, num_of_engines)
+    local res = nil
+    if tbl['conditions'] == 'any' then
+        --  assume nothing is true until proven otherwise and we can return asap
+        res = false
+    elseif tbl['conditions'] == 'all' then
+        --  assume everything is true until proven otherwise and we can return asap
+        res = true
+    end
+    for _, value in ipairs(tbl['datarefs']) do
+        if tbl['conditions'] == 'any' then
+            -- Check if any of the datarefs is true
+            if check_dataref(value, tbl['operators'], tbl['thresholds'], tbl['conditions'], num_of_engines) then
+                return true
+            end
+        elseif tbl['conditions'] == 'all' then
+            -- Check if all of the datarefs are true
+            if not check_dataref(value, tbl['operators'], tbl['thresholds'], tbl['conditions'], num_of_engines) then
+                return false
+            end
+        end
+    end
+    return res
+end
+
+function check_dataref(tbl, operator, threshold, conditions, num_of_engines)
+    local funcCode = [[
+        return function(x)
+            return x]] .. operator .. threshold .. [[
+        end
+    ]]
+    local func = load(funcCode)()
+
+    local res = nil
+    if conditions == 'any' then
+        --  assume nothing is true until proven otherwise and we can return asap
+        res = false
+    elseif conditions == 'all' then
+        --  assume everything is true until proven otherwise and we can return asap
+        res = true
+    end
+    if num_of_engines == nil then
+        num_of_engines = 8
+    end
+    for i = 0, num_of_engines - 1 do
+        if conditions == 'any' then
+            -- Check if any of the datarefs is true
+            if func(tbl[i]) then
+                return true
+            end
+        elseif conditions == 'all' then
+            -- Check if all of the datarefs are true
+            if not func(tbl[i]) then
+                return false
+            end
+        end
+    end
+    return res
 end
