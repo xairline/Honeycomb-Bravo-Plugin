@@ -136,14 +136,14 @@ function landing_gear_led()
     for i = 1, 3 do
         gear_leds[i] = { nil, nil } -- green, red
 
-        if DATAREFS.RETRACTABLE_GEAR.datarefs[0][0] == 0 then
+        if DATAREFS.RETRACTABLE_GEAR.datarefs[1][0] == 0 then
             -- No retractable landing gear
         else
-            if DATAREFS.GEAR.datarefs[0][i - 1] == 0 then
+            if DATAREFS.GEAR.datarefs[1][i - 1] == 0 then
                 -- Gear stowed
                 gear_leds[i][1] = false
                 gear_leds[i][2] = false
-            elseif DATAREFS.GEAR.datarefs[0][i - 1] == 1 then
+            elseif DATAREFS.GEAR.datarefs[1][i - 1] == 1 then
                 -- Gear deployed
                 gear_leds[i][1] = true
                 gear_leds[i][2] = false
