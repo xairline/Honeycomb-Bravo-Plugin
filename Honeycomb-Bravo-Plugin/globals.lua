@@ -39,7 +39,8 @@ PROFILE = "default"
 -- Switches for specific plugin behavior that transcends profiles
 SHOW_ANC_HYD = true
 ONLY_USE_AUTOPILOT_STATE = false
-NUM_ENGINES = 0
+local num_of_engines = dataref_table('sim/aircraft/engine/acf_num_engines')
+NUM_ENGINES = num_of_engines[0]
 
 -- Support variables & functions for sending LED data via HID
 BUFFER = {}

@@ -17,13 +17,10 @@ function get_profile()
     elseif PLANE_ICAO == "A319" or PLANE_ICAO == "A20N" or PLANE_ICAO == "A321" or PLANE_ICAO == "A21N" or PLANE_ICAO == "A346" then
         -- Toliss A32x
         PROFILE = "Toliss/32x"
-        NUM_ENGINES = 2
-        if PLANE_ICAO == "A346" then
-            NUM_ENGINES = 4
-        end
     end
     write_log('INFO Aircraft identified as ' .. PLANE_ICAO .. ' with filename ' .. AIRCRAFT_FILENAME)
     write_log('INFO Using profile ' .. PROFILE)
+    write_log('INFO Number of engines: ' .. NUM_ENGINES)
 end
 
 function bind_datarefs()

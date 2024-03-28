@@ -194,11 +194,11 @@ function handle_led_changes()
     set_led(LED.ANC_FUEL, check_datarefs(DATAREFS['FUEL_LOW_P'], NUM_ENGINES))
     set_led(LED.ANC_ANTI_ICE, check_datarefs(DATAREFS['ANTI_ICE']))
     set_led(LED.FCU_APR, check_datarefs(DATAREFS['APR']))
-    set_led(LED.FCU_REV, check_datarefs(DATAREFS['REV']))
+    set_led(LED.FCU_REV, check_datarefs(DATAREFS['REV'], NUM_ENGINES))
     set_led(LED.ANC_MSTR_WARNG, check_datarefs(DATAREFS['MASTER_WARN']))
-    set_led(LED.ANC_STARTER, check_datarefs(DATAREFS['ENG_STARTER']))
-    set_led(LED.ANC_APU, check_datarefs(DATAREFS['APU']))
-    set_led(LED.ANC_MSTR_CTN, check_datarefs(DATAREFS['MASTER_CAUTION']))
+    set_led(LED.ANC_STARTER, check_datarefs(DATAREFS['ENG_STARTER'], NUM_ENGINES))
+    set_led(LED.ANC_APU, check_datarefs(DATAREFS['APU'], 1))
+    set_led(LED.ANC_MSTR_CTN, check_datarefs(DATAREFS['MASTER_CAUTION'], 1))
 
     -- If we have any LED changes, send them to the device
     if BUFFER_MODIFIED == true then
