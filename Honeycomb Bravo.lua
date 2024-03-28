@@ -4,10 +4,11 @@
 -- Based also on https://github.com/jorgeuvo/Honeycomb-Bravo-Plugin
 
 dofile(SCRIPT_DIRECTORY .. "/Honeycomb-Bravo-Plugin/globals.lua")
+dofile(SCRIPT_DIRECTORY .. "/Honeycomb-Bravo-Plugin/helpers.lua")
 dofile(SCRIPT_DIRECTORY .. "/Honeycomb-Bravo-Plugin/logging.lua")
 dofile(SCRIPT_DIRECTORY .. "/Honeycomb-Bravo-Plugin/bravo.lua")
 dofile(SCRIPT_DIRECTORY .. "/Honeycomb-Bravo-Plugin/profile.lua")
-dofile(SCRIPT_DIRECTORY .. "/Honeycomb-Bravo-Plugin/helpers.lua")
+
 
 check_bravo()
 get_profile()

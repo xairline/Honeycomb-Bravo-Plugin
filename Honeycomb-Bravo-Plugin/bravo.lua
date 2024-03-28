@@ -403,10 +403,6 @@ function aux_fuel_pump_led()
     set_led(LED.ANC_AUX_FUEL, aux_fuel_pump_bool)
 end
 
-function parking_brake_led()
-    set_led(LED.ANC_PRK_BRK, PARKING_BRAKE[0] > 0)
-end
-
 function handle_led_changes()
     if not (BUS_VOLTAGE[0] > 0 or array_has_positives(BUS_VOLTAGE)) then
         MASTER_STATE = false
@@ -419,7 +415,7 @@ function handle_led_changes()
     vacuum_led()
     low_hyd_led()
     aux_fuel_pump_led()
-    parking_brake_led()
+    set_led(LED.ANC_PRK_BRK, PARKING_BRAKE[0] > 0)
     low_volt_led()
     door_led()
     alt_led()
@@ -431,17 +427,11 @@ function handle_led_changes()
     low_oil_pressure_led()
     low_fuel_pressure_led()
     anti_ice_led()
-    -- APR
     set_led(LED.FCU_APR, get_ap_state(APR))
-    -- REV
     set_led(LED.FCU_REV, get_ap_state(REV))
-    -- MASTER WARNING
     set_led(LED.ANC_MSTR_WARNG, int_to_bool(MASTER_WARN[0]))
-    -- STARTER ENGAGED
     set_led(LED.ANC_STARTER, array_has_true(ENG_STARTER))
-    -- APU
     set_led(LED.ANC_APU, int_to_bool(apu[0]))
-    -- MASTER CAUTION
     set_led(LED.ANC_MSTR_CTN, int_to_bool(MASTER_CAUTION[0]))
 
     -- If we have any LED changes, send them to the device

@@ -27,6 +27,24 @@ function get_profile()
 end
 
 function bind_datarefs()
+    -- CSV_PROFILE = parseCSV(SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv')
+    -- if CSV_PROFILE then
+    --     write_log('INFO Found CSV Profil for ' .. PLANE_ICAO)
+    --     for _, value in ipairs(CSV_PROFILE) do
+    --         local name = value["name"]
+    --         write_log('INFO Binding dataref for: ' .. name)
+    --         local dataref = dataref_table(value["datarefs"])
+    --         dumpTable(dataref)
+    --         local funcCode = [[
+    --             return function()
+    --                 return ]]..name[[
+    --             end
+    --         ]]
+    --         LED_FUNCTIONS[name] = load(funcCode)()
+    --     end
+    --     -- return
+    -- end
+
     if PLANE_ICAO == "C172" or PLANE_ICAO == "SR22" then
         SHOW_ANC_HYD = false
         ONLY_USE_AUTOPILOT_STATE = true -- as the normal hdg and nav datarefs indicate hdg when they shouldn't

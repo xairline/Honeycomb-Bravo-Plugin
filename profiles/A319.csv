@@ -1,0 +1,2 @@
+name,datarefs,operators,threholds,conditions
+VOLT_LOW,sim/cockpit2/electrical/battery_amps,<,20,all
