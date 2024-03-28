@@ -26,6 +26,8 @@ jobs:
           rm -rf .vscode
       
       # covert markdown file to pdf
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
       - name: Convert markdown to PDF
         run: |
           pandoc profiles/README.md -o profiles/README.pdf
