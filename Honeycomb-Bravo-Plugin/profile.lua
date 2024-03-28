@@ -26,12 +26,12 @@ function get_profile()
     write_log('INFO Using profile ' .. PROFILE)
 end
 
-function get_datarefs()
+function bind_datarefs()
     if PLANE_ICAO == "C172" or PLANE_ICAO == "SR22" then
         SHOW_ANC_HYD = false
         ONLY_USE_AUTOPILOT_STATE = true -- as the normal hdg and nav datarefs indicate hdg when they shouldn't
     end
-    
+
     -- Disable the hydraulics annunciator on SEL aircraft, see https://forums.x-plane.org/index.php?/files/file/89635-honeycomb-bravo-plugin/&do=findComment&comment=396048
     if
         PLANE_ICAO == "C172" or
@@ -77,7 +77,8 @@ function get_datarefs()
         ALT = dataref_table('AirbusFBW/ALTmanaged')    -- 101
         VS = dataref_table('AirbusFBW/APVerticalMode') --107
         IAS = dataref_table('AirbusFBW/SPDmanaged')
-        AP = { dataref_table('AirbusFBW/AP1Engage'), dataref_table('AirbusFBW/AP2Engage') }
+        AP[0] = dataref_table('AirbusFBW/AP1Engage')
+        AP[1] = dataref_table('AirbusFBW/AP2Engage')
     end
 
     -- Annunciator panel - top row
