@@ -26,12 +26,12 @@ jobs:
           rm -rf .vscode
       
       # covert markdown file to pdf
-      - name: Create .pdfs
-        uses: scottypate/md-to-pdf@v0.1.1
-        env: {
-          # Use this parameter to determine where the generated .pdf(s) will be stored.
-          PDF_DIR: 'profiles'
-        }
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+      - name: Convert markdown to PDF
+        run: |
+          pandoc profiles/README.md -o profiles/README.pdf
+          rm -rf profiles/README.md
 
       - name: Zip the code
         run: zip -r release-${{ env.VERSION }}.zip .
