@@ -24,6 +24,12 @@ jobs:
           rm -rf .git
           rm -rf .github
           rm -rf .vscode
+      
+      # covert markdown file to pdf
+      - name: Convert markdown to PDF
+        run: |
+          pandoc profiles/README.md -o profiles/README.pdf
+          rm -rf profiles/README.md
 
       - name: Zip the code
         run: zip -r release-${{ env.VERSION }}.zip .

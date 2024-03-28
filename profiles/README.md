@@ -15,10 +15,33 @@ The file name of csv should match the ICAO code of the plane. If you don't know 
 >NOTE: Some developers don't name their ICAO properly so be careful to use real world ICAO
 
 ## Format
-There are 6 columns in the CSV. Please don't modify/add/remove any of them
+There are 6 columns in the CSV. Please don't modify/add/remove any of them (headers).
+
+Each row represents a LED light on honeycomb bravo. See following details.
+
 ### name
+This is binded to Honeycomb Bravo LEDs. You can not add or modify this. However, you may remove a row if you want to use XPlane default or simply don't know what to put. Note that most 3rd party planes use some of their own dataref instead of default ones. 
 
 ### datarefs
+This is where you can define a dataref or multiple datarefs that the corresponding LED should react on. 
+
+**IMPORT**: To use multiple datarefs, each dataref is separated by `;`. DO NOT USE `,`
+
 ### operators
+This is simply how we should compare the dataref with threshold. you can use one of following:
+
+```
+>,<,>=,<=,==,~=
+```
+
 ### thresholds
+This is the thershold you are comparing to. Note that you should try NOT to compare to 0. This is because some datarefs are `float` which means 0 is not exactly 0 but something like 0.000000001. If you try to do something like `SOME_DATAREF > 0` it might be always true. What you want is `SOME_DATAREF > 0.001`
+
 ### descriptions
+This field is simply left there for you to take notes/make comments
+
+## How to test my new configuration
+
+If you are changing the csv file, the best way to test it would be simply reload the lua script from XPlane menu. You don't have to reload XPlane.
+
+Logs are in X Plane's `Log.txt`, attach that if you need any help
