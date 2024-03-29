@@ -73,6 +73,15 @@ function send_hid_data()
     end
     if bytes_written == -1 then
         write_log('ERROR Feature report write failed, an error occurred')
+        write_log('INOF wait for bravo reconnect ...')
+        while true do
+            pcall(hid_close(BRAVO))
+            BRAVO = hid_open(10571, 6401)
+            if BRAVO ~= nil then
+                write_log('INFO Honeycomb Bravo Throttle Quadrant detected.')
+                break
+            end
+        end
     elseif bytes_written < 65 then
         write_log('ERROR Feature report write failed, only ' .. bytes_written .. ' bytes written')
     else
@@ -91,8 +100,10 @@ function get_led(led)
 end
 
 function exit_handler()
-    all_leds_off()
-    send_hid_data()
+    write_log('INFO Exiting Honeycomb Bravo Plugin')
+    pcall(all_leds_off)
+    pcall(send_hid_data)
+    pcall(hid_close, BRAVO)
 end
 
 function nav_hdg_led()
