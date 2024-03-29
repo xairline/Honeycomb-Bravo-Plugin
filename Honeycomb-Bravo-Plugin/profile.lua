@@ -29,6 +29,8 @@ function bind_datarefs()
         write_log('INFO Found CSV Profil for ' .. PLANE_ICAO)
         for _, value in ipairs(CSV_PROFILE) do
             local name = value["name"]
+            write_log('INFO Binding ' .. name)
+            dumpTable(value, 2)
             -- remove default datarefs
             pcall(table.remove, DATAREFS[name], 1)
 
