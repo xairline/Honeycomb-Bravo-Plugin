@@ -78,7 +78,6 @@ DATAREFS = {
     OIL_LOW_P = { datarefs = { dataref_table('sim/cockpit2/annunciators/oil_pressure_low') } },
     FUEL_LOW_P = { datarefs = { dataref_table('sim/cockpit2/annunciators/fuel_pressure_low') } },
     ANTI_ICE = { datarefs = { dataref_table('sim/cockpit2/annunciators/pitot_heat') } },
-    ANTI_ICE_FLIP = false,
     ENG_STARTER = { datarefs = { dataref_table('sim/cockpit2/engine/actuators/starter_hit') } },
     APU = { datarefs = { dataref_table('sim/cockpit2/electrical/APU_running') } },
     ---- Annunciator panel - bottom row

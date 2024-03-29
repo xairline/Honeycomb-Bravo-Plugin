@@ -30,7 +30,7 @@ function bind_datarefs()
         for _, value in ipairs(CSV_PROFILE) do
             local name = value["name"]
             -- remove default datarefs
-            table.remove(DATAREFS[name], 1)
+            pcall(table.remove, DATAREFS[name], 1)
 
             -- get the datarefs string
             local dataref_str = value["datarefs"]

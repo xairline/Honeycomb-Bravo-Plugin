@@ -103,7 +103,6 @@ function exit_handler()
     write_log('INFO Exiting Honeycomb Bravo Plugin')
     pcall(all_leds_off)
     pcall(send_hid_data)
-    pcall(hid_close, BRAVO)
 end
 
 function nav_hdg_led()
