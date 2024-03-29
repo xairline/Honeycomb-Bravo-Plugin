@@ -17,7 +17,7 @@ get_profile()
 all_leds_off()
 send_hid_data()
 hid_open(10571, 6401) -- MacOS Bravo must be reopened for .joy axes to operate
-bind_datarefs()
+xpcall(bind_datarefs, exit_handler)
 
 -- register flight loop callback
 do_every_frame('handle_led_changes()')

@@ -10,7 +10,7 @@ The file name of csv should match the ICAO code of the plane. If you don't know 
 
 `identified as XXXX` where `XXXX` is the ICAO. And in above example, you should create A321.csv and store it in `profiles` folder (where **A319.csv** is provided). 
 
->TIP: Simply copy the provided **A319.csv** and rename it is the easiest way to create a new profile.
+>TIP: Simply copy the provided **sample.profile** and rename it is the easiest way to create a new profile.
 
 >NOTE: Some developers don't name their ICAO properly so be careful to use real world ICAO
 
