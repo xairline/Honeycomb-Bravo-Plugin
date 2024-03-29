@@ -95,7 +95,7 @@ function check_dataref(tbl, operator, threshold, conditions, num_of_engines)
         num_of_engines = 8
     end
     for i = 0, num_of_engines - 1 do
-        if conditions == 'any' then
+                if conditions == 'any' then
             -- Check if any of the datarefs is true
             if func(tbl[i]) then
                 return true
