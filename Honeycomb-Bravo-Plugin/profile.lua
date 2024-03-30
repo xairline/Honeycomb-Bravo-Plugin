@@ -29,8 +29,8 @@ function bind_datarefs()
         write_log('INFO Found CSV Profil for ' .. PLANE_ICAO)
         for _, value in ipairs(CSV_PROFILE) do
             local name = value["name"]
-            write_log('INFO Binding ' .. name)
-            dumpTable(value, 2)
+            -- write_log('INFO Binding ' .. name)
+            -- dumpTable(value, 2)
             -- remove default datarefs
             pcall(table.remove, DATAREFS[name], 1)
 
@@ -42,7 +42,14 @@ function bind_datarefs()
             local my_tbl = {}
             -- one led might be bound to multiple datarefs
             for _, dataref in ipairs(datarefs) do
-                table.insert(my_tbl, dataref_table(dataref))
+                local df_var = XPLMFindDataRef(dataref)
+                if df_var ~= nil then
+                    table.insert(my_tbl, dataref_table(dataref))
+                else
+                    DELAYED_LOADING = true
+                    table.insert(my_tbl, dataref)
+                    write_log('WARN Dataref ' .. dataref .. ' - ' .. "delay loading")
+                end
             end
             DATAREFS[name] = {
                 datarefs = my_tbl,

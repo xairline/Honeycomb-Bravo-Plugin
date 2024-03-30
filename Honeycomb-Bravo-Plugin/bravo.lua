@@ -187,6 +187,16 @@ function handle_led_changes()
         return
     end
 
+    if DELAYED_LOADING then
+        write_log('INFO Delayed loading of datarefs, loading now')
+        DELAYED_LOADING = false
+        bind_datarefs()
+        if DELAYED_LOADING then
+            write_log('WAN Some datarefs are still not loaded, exiting')
+            return
+        end
+    end
+
     nav_hdg_led()
     ias_led()
     landing_gear_led()
@@ -203,7 +213,7 @@ function handle_led_changes()
     set_led(LED.ANC_OIL, check_datarefs(DATAREFS['OIL_LOW_P'], NUM_ENGINES))
     set_led(LED.ANC_FUEL, check_datarefs(DATAREFS['FUEL_LOW_P'], NUM_ENGINES))
     set_led(LED.ANC_ANTI_ICE, check_datarefs(DATAREFS['ANTI_ICE']))
-    set_led(LED.FCU_APR, check_datarefs(DATAREFS['APR']))
+    set_led(LED.FCU_APR, check_datarefs(DATAREFS['AP']) and check_datarefs(DATAREFS['APR']))
     set_led(LED.FCU_REV, check_datarefs(DATAREFS['REV'], NUM_ENGINES))
     set_led(LED.ANC_MSTR_WARNG, check_datarefs(DATAREFS['MASTER_WARN']))
     set_led(LED.ANC_STARTER, check_datarefs(DATAREFS['ENG_STARTER'], NUM_ENGINES))
