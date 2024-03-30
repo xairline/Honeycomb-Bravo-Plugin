@@ -59,7 +59,7 @@ function bind_datarefs()
                     value["conditions"]
             }
             -- store to logs for debugging
-            -- dumpTable(DATAREFS)
+            dumpTable(DATAREFS)
         end
         return
     end

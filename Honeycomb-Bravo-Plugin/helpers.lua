@@ -31,7 +31,7 @@ function parseCSV(filePath)
             row[v] = values[i]
         end
         table.insert(data, row)
-            end
+    end
 
     file:close() -- Always remember to close the file
     return data
@@ -99,18 +99,23 @@ function check_dataref(tbl, operator, threshold, conditions, num_of_engines, deb
     if num_of_engines == nil then
         num_of_engines = 8
     end
-    for i = 0, num_of_engines - 1 do
-        if conditions == 'any' then
-            -- Check if any of the datarefs is true
-            if func(tbl[i], debug) then
-                return true
-            end
-        elseif conditions == 'all' then
-            -- Check if all of the datarefs are true
-            if not func(tbl[i], debug) then
-                return false
+    if tbl['reftype'] > 4 then
+        for i = 0, num_of_engines - 1 do
+            if conditions == 'any' then
+                -- Check if any of the datarefs is true
+                if func(tbl[i], debug) then
+                    return true
+                end
+            elseif conditions == 'all' then
+                -- Check if all of the datarefs are true
+                if not func(tbl[i], debug) then
+                    return false
+                end
             end
         end
+    else
+        return func(tbl[0], debug)
     end
+
     return res
 end
