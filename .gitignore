@@ -1,3 +1,4 @@
 *.zip
 .vscode/settings.json
 .vscode
+LandingRate.lua

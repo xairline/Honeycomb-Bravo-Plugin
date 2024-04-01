@@ -193,6 +193,8 @@ function handle_led_changes()
         bind_datarefs()
         if DELAYED_LOADING then
             write_log('WAN Some datarefs are still not loaded, exiting')
+            all_leds_off()
+            send_hid_data()
             return
         end
     end
