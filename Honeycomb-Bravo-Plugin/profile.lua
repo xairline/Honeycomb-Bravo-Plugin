@@ -26,7 +26,7 @@ end
 function bind_datarefs()
     CSV_PROFILE = parseCSV(SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv')
     if CSV_PROFILE then
-        write_log('INFO Found CSV Profil for ' .. PLANE_ICAO)
+        write_log('INFO Found CSV Profile for ' .. PLANE_ICAO)
         for _, value in ipairs(CSV_PROFILE) do
             local name = value["name"]
             -- write_log('INFO Binding ' .. name)
