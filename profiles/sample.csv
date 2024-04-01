@@ -1,5 +1,5 @@
 name,datarefs,operators,thresholds,conditions,description
-BUS_VOLTAGE,sim/cockpit2/electrical/bus_volts,>,0.01,any,this led ligths up when master electric switch is on
+BUS_VOLTAGE,sim/cockpit2/electrical/bus_volts,>,0.01,any,this make sure no lights on when there is no power in the plane
 HDG,sim/cockpit2/autopilot/heading_mode,==,101,any,description
 NAV,sim/cockpit2/autopilot/nav_status,==,2,any,description
 APR,sim/cockpit2/autopilot/approach_status,>=,1,any,description

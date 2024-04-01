@@ -20,4 +20,4 @@ MASTER_CAUTION,AirbusFBW/MasterCaut,>,0.01,any,description
 VACUUM,sim/cockpit/misc/vacuum;sim/cockpit/misc/vacuum2,<,1,any,description
 HYDRO_LOW_P,AirbusFBW/HydSysPressArray,<,2500,all,description
 PARKING_BRAKE,AirbusFBW/ParkBrake,==,1,any,description
-DOORS,AirbusFBW/PaxDoorArray;AirbusFBW/CargoDoorArray,>,0.9,any,description
+DOORS,AirbusFBW/PaxDoorArray;AirbusFBW/CargoDoorArray;AirbusFBW/BulkDoor,>,0.9,any,description
