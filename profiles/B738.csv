@@ -7,7 +7,7 @@ REV,laminar/B738/autopilot/vnav_status1,>=,1,any,description
 ALT,laminar/B738/autopilot/alt_hld_status,==,1,any,description
 VS,laminar/B738/autopilot/vs_status,==,1,any,description
 IAS,laminar/B738/autopilot/speed_status1,>=,1,any,description
-AP,laminar/B738/autopilot/cmd_a_status,>,0.01,any,description
+AP,laminar/B738/autopilot/cmd_a_status;laminar/B738/autopilot/cmd_b_status,>,0.01,any,description
 AP_STATE,sim/cockpit/autopilot/autopilot_state,==,0,any,description
 GEAR,sim/flightmodel2/gear/deploy_ratio,==,0,any,description
 RETRACTABLE_GEAR,sim/aircraft/gear/acf_gear_retract,==,0,any,description
