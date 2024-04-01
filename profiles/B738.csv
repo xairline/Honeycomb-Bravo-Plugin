@@ -20,8 +20,8 @@ ENG_STARTER,laminar/B738/engine/start_valve1;laminar/B738/engine/start_valve2,>,
 APU,sim/cockpit2/electrical/APU_running,>,0.01,any,description
 MASTER_CAUTION,laminar/B738/annunciator/master_caution_light,>,0.01,any,description
 VACUUM,sim/cockpit/misc/vacuum;sim/cockpit/misc/vacuum2,<,1,any,description
-HYDRO_LOW_P,sim/cockpit2/hydraulics/indicators/hydraulic_pressure_1;sim/cockpit2/hydraulics/indicators/hydraulic_pressure_2,<,2500,all,description
+HYDRO_LOW_P,sim/cockpit2/hydraulics/indicators/hydraulic_pressure_1;sim/cockpit2/hydraulics/indicators/hydraulic_pressure_2,<,3300,any,description
 AUX_FUEL_PUMP,sim/cockpit2/fuel/transfer_pump_right;sim/cockpit2/fuel/transfer_pump_left,>,0.01,any,description
 PARKING_BRAKE,laminar/B738/annunciator/parking_brake,>,0.2,any,description
 VOLT_LOW,sim/cockpit2/annunciators/low_voltage,<,-80,any,description
-DOORS,laminar/B738/annunciator/six_pack_doors;laminar/B738/toggle_switch/flt_dk_door,>,0.1,any,description
+DOORS,laminar/B738/annunciator/six_pack_doors;laminar/B738/toggle_switch/flt_dk_door;737u/doors/Fwd_Cargo;737u/doors/aft_Cargo,>,0.1,any,description
