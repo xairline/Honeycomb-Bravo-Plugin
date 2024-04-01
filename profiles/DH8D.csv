@@ -1,5 +1,5 @@
 name,datarefs,operators,thresholds,conditions,description
-BUS_VOLTAGE,sim/cockpit2/electrical/bus_volts,>,0.01,any,this led ligths up when master electric switch is on
+BUS_VOLTAGE,sim/cockpit2/electrical/bus_volts,>,1,any,this led ligths up when master electric switch is on
 HDG,FJS/Q4XP/FMA/roll_act,==2, or x==4,any,description
 NAV,FJS/Q4XP/FMA/pitch_act,==18, or x==19,any,description
 APR,FJS/Q4XP/FMA/roll_act,>=8, and  x<=11,any,description
@@ -18,7 +18,7 @@ FUEL_LOW_P,sim/cockpit2/engine/indicators/fuel_pressure_psi,<,20,any,description
 ANTI_ICE,sim/cockpit/switches/anti_ice_prop_heat,==,1,any,description
 ENG_STARTER,sim/cockpit2/engine/actuators/starter_hit,>,0.01,any,description
 APU,sim/cockpit2/electrical/APU_running,>,0.01,any,description
-MASTER_CAUTION,FJS/Q4XP/Annunciators/CautWarn_Lit,==,15,any,description
+MASTER_CAUTION,FJS/Q4XP/Annunciators/CautWarn_Lit,>,0.01,any,description
 VACUUM,sim/cockpit/misc/vacuum;sim/cockpit/misc/vacuum2,<,1,any,description
 HYDRO_LOW_P,sim/operation/failures/hydraulic_pressure_ratio,<,3002,all,description
 AUX_FUEL_PUMP,sim/cockpit2/fuel/transfer_pump_right;sim/cockpit2/fuel/transfer_pump_left,>,0.01,any,description
