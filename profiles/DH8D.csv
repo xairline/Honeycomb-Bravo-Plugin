@@ -1,5 +1,5 @@
 name,datarefs,operators,thresholds,conditions,description
-BUS_VOLTAGE,sim/cockpit2/electrical/bus_volts,>,1,any,this led ligths up when master electric switch is on
+BUS_VOLTAGE,sim/cockpit/electrical/battery_array_on,~=,0,any,this led ligths up when master electric switch is on
 HDG,FJS/Q4XP/FMA/roll_act,==2, or x==4,any,description
 NAV,FJS/Q4XP/FMA/pitch_act,==18, or x==19,any,description
 APR,FJS/Q4XP/FMA/roll_act,>=8, and  x<=11,any,description
