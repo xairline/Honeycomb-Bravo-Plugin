@@ -23,8 +23,12 @@ function get_profile()
     write_log('INFO Number of engines: ' .. NUM_ENGINES)
 end
 
-function bind_datarefs()
-    CSV_PROFILE = parseCSV(SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv')
+function bind_datarefs(filename)
+    if filename then
+        CSV_PROFILE = parseCSV(SCRIPT_DIRECTORY .. 'profiles/' .. filename)
+    else
+        CSV_PROFILE = parseCSV(SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv')
+    end
     if CSV_PROFILE then
         write_log('INFO Found CSV Profile for ' .. PLANE_ICAO)
         for _, value in ipairs(CSV_PROFILE) do

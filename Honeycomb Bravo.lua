@@ -16,6 +16,8 @@ get_profile()
 -- Initialize our default state
 all_leds_off()
 send_hid_data()
+--   load default datarefs
+bind_datarefs("sample.csv")
 hid_open(10571, 6401) -- MacOS Bravo must be reopened for .joy axes to operate
 xpcall(bind_datarefs, exit_handler)
 
