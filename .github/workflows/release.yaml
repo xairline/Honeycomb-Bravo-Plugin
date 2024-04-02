@@ -36,6 +36,10 @@ jobs:
       - name: Zip the code
         run: zip -r release-${{ env.VERSION }}.zip .
 
+      - name: Read Changelog
+        id: read_changelog
+        run: echo "::set-output name=changelog::$(cat changelog.md)"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -46,6 +50,7 @@ jobs:
           release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: true
+          body: ${{ steps.read_changelog.outputs.changelog }}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
