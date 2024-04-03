@@ -64,12 +64,12 @@ function check_datarefs(tbl, num_of_engines, debug)
     for _, value in ipairs(tbl['datarefs']) do
         if tbl['conditions'] == 'any' then
             -- Check if any of the datarefs is true
-            if check_dataref(value, tbl['operators'], tbl['thresholds'], tbl['conditions'], num_of_engines, debug) then
+            if check_dataref(value, tbl['conditions'], num_of_engines, debug) then
                 return true
             end
         elseif tbl['conditions'] == 'all' then
             -- Check if all of the datarefs are true
-            if not check_dataref(value, tbl['operators'], tbl['thresholds'], tbl['conditions'], num_of_engines, debug) then
+            if not check_dataref(value, tbl['conditions'], num_of_engines, debug) then
                 return false
             end
         end
@@ -77,7 +77,9 @@ function check_datarefs(tbl, num_of_engines, debug)
     return res
 end
 
-function check_dataref(tbl, operator, threshold, conditions, num_of_engines, debug)
+function check_dataref(tbl, conditions, num_of_engines, debug)
+    local operator = tbl['operator']
+    local threshold = tbl['threshold']
     local funcCode = [[
         return function(x, debug)
             if debug then
@@ -99,22 +101,22 @@ function check_dataref(tbl, operator, threshold, conditions, num_of_engines, deb
     if num_of_engines == nil then
         num_of_engines = 8
     end
-    if tbl['reftype'] > 4 then
+    if tbl[1]['reftype'] > 4 then
         for i = 0, num_of_engines - 1 do
             if conditions == 'any' then
                 -- Check if any of the datarefs is true
-                if func(tbl[i], debug) then
+                if func(tbl[1][i], debug) then
                     return true
                 end
             elseif conditions == 'all' then
                 -- Check if all of the datarefs are true
-                if not func(tbl[i], debug) then
+                if not func(tbl[1][i], debug) then
                     return false
                 end
             end
         end
     else
-        return func(tbl[0], debug)
+        return func(tbl[1][0], debug)
     end
 
     return res

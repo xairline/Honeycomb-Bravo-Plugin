@@ -1,4 +1,8 @@
 # Change Log
+## 2.0.2:
+    - allow different operator/threhold for a group of datarefs. Previously, only one operator/threshold is allowed for entire group
+## 2.0.1:
+    - add E55P profile
 ## 2.0.0:
     - Refactor codebase into multiple files
     - Support configuration file 

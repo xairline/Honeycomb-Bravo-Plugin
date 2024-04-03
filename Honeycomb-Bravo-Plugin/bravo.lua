@@ -107,11 +107,11 @@ end
 
 function nav_hdg_led()
     -- HDG & NAV
-    if BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 2) > 0 then
+    if BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][1][0], 2) > 0 then
         -- Heading Select Engage
         set_led(LED.FCU_HDG, true)
         set_led(LED.FCU_NAV, false)
-    elseif BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 512) > 0 or BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 524288) > 0 then
+    elseif BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][1][0], 512) > 0 or BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][1][0], 524288) > 0 then
         -- Nav Engaged or GPSS Engaged
         set_led(LED.FCU_HDG, false)
         set_led(LED.FCU_NAV, true)
@@ -130,7 +130,7 @@ end
 
 function ias_led()
     -- IAS
-    if BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][0], 8) > 0 then
+    if BITWISE.band(DATAREFS['AP_STATE'].datarefs[1][1][0], 8) > 0 then
         -- Speed-by-pitch Engage AKA Flight Level Change
         -- See "Aliasing of Flight-Level Change With Speed Change" on https://developer.x-plane.com/article/accessing-the-x-plane-autopilot-from-datarefs/
         set_led(LED.FCU_IAS, true)
@@ -146,14 +146,14 @@ function landing_gear_led()
     for i = 1, 3 do
         gear_leds[i] = { nil, nil } -- green, red
 
-        if DATAREFS.RETRACTABLE_GEAR.datarefs[1][0] == 0 then
+        if DATAREFS.RETRACTABLE_GEAR.datarefs[1][1][0] == 0 then
             -- No retractable landing gear
         else
-            if DATAREFS.GEAR.datarefs[1][i - 1] == 0 then
+            if DATAREFS.GEAR.datarefs[1][1][i - 1] == 0 then
                 -- Gear stowed
                 gear_leds[i][1] = false
                 gear_leds[i][2] = false
-            elseif DATAREFS.GEAR.datarefs[1][i - 1] == 1 then
+            elseif DATAREFS.GEAR.datarefs[1][1][i - 1] == 1 then
                 -- Gear deployed
                 gear_leds[i][1] = true
                 gear_leds[i][2] = false

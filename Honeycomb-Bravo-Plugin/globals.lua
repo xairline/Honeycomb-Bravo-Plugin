@@ -54,9 +54,11 @@ BITWISE = require 'bit'
 DATAREFS = {
     ---- Leds
     BUS_VOLTAGE = {
-        datarefs = { dataref_table('sim/cockpit2/electrical/bus_volts') },
-        operators = ">",
-        thresholds = 0,
+        datarefs = {
+            dataref_table('sim/cockpit2/electrical/bus_volts'),
+            operator = ">",
+            threshold = 0,
+        },
         conditions = "any"
     },
     ---- Autopilot
@@ -86,11 +88,18 @@ DATAREFS = {
     HYDRO_LOW_P = { datarefs = { dataref_table('sim/cockpit2/annunciators/hydraulic_pressure') } },
     AUX_FUEL_PUPM = {
         datarefs = {
-            dataref_table('sim/cockpit2/fuel/transfer_pump_right'),
-            dataref_table('sim/cockpit2/fuel/transfer_pump_left')
+            {
+                dataref_table('sim/cockpit2/fuel/transfer_pump_right'),
+                operator = "==",
+                threshold = 2,
+            },
+            {
+                dataref_table('sim/cockpit2/fuel/transfer_pump_left'),
+                operator = "==",
+                threshold = 2,
+            },
         },
-        operators = "==",
-        thresholds = 2,
+
         conditions = "any"
     },
     PARKING_BRAKE = { datarefs = { dataref_table('sim/cockpit2/controls/parking_brake_ratio') } },

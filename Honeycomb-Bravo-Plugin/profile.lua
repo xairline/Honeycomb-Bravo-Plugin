@@ -43,22 +43,47 @@ function bind_datarefs(filename)
             dataref_str = string.gsub(dataref_str, '"', '')
             -- split the datarefs string by comma
             local datarefs = splitString(dataref_str, ';')
+            -- get operators
+            local operators = value["operators"]
+            local operators_arr = splitString(operators, ';')
+            -- get thresholds
+            local thresholds = value["thresholds"]
+            local thresholds_arr = splitString(thresholds, ';')
+            if #datarefs ~= #operators_arr or #datarefs ~= #thresholds_arr then
+                write_log('Warning Dataref ' .. name .. ' - ' .. "mismatched datarefs, operators, or thresholds")
+                write_log('number of datarefs: ' .. #datarefs)
+                for i = 0, #datarefs - 1 do
+                    table.insert(operators_arr, operators_arr[1])
+                    table.insert(thresholds_arr, thresholds_arr[1])
+                end
+            end
+
             local my_tbl = {}
             -- one led might be bound to multiple datarefs
-            for _, dataref in ipairs(datarefs) do
+            for i, dataref in ipairs(datarefs) do
                 local df_var = XPLMFindDataRef(dataref)
                 if df_var ~= nil then
-                    table.insert(my_tbl, dataref_table(dataref))
+                    table.insert(my_tbl,
+                        {
+                            dataref_table(dataref),
+                            operator = operators_arr[i],
+                            threshold = thresholds_arr[i]
+                        }
+                    )
                 else
                     DELAYED_LOADING = true
-                    table.insert(my_tbl, dataref)
+                    table.insert(my_tbl,
+                        {
+                            dataref,
+                            operator = operators_arr[i],
+                            threshold = thresholds_arr[i]
+                        }
+                    )
                     write_log('WARN Dataref ' .. dataref .. ' - ' .. "delay loading")
                 end
             end
             DATAREFS[name] = {
                 datarefs = my_tbl,
-                operators = value["operators"],
-                thresholds = value["thresholds"],
                 conditions =
                     value["conditions"]
             }
