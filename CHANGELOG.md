@@ -1,4 +1,7 @@
 # Change Log
+## 2.1.0:
+    - Fix anti ice on E55P
+    - Add Simple in-sim UI to help developing/verifying profiles
 ## 2.0.2:
     - allow different operator/threhold for a group of datarefs. Previously, only one operator/threshold is allowed for entire group
 ## 2.0.1:
