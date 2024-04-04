@@ -55,14 +55,14 @@ function hc_bravo_configurator_on_build(hc_bravo_configurator_wnd, x, y) --<-- y
 
 			imgui.SameLine()
 			imgui.PushStyleColor(imgui.constant.Col.Text, 0xFF00BFFF)
-			imgui.SetNextItemWidth(40)
-			imgui.InputText("##" .. key .. "-" .. i .. "-operator", datarefs[i]["operator"], 20)
+			imgui.SetNextItemWidth(80)
+			imgui.InputText("##" .. key .. "-" .. i .. "-operator", datarefs[i]["operator"], 60)
 			imgui.PopStyleColor()
 
 			imgui.SameLine()
 			imgui.PushStyleColor(imgui.constant.Col.Text, 0xFF00BFFF)
-			imgui.SetNextItemWidth(40)
-			imgui.InputText("##" .. key .. "-" .. i .. "-threshold", datarefs[i]["threshold"], 20)
+			imgui.SetNextItemWidth(80)
+			imgui.InputText("##" .. key .. "-" .. i .. "-threshold", datarefs[i]["threshold"], 60)
 			imgui.PopStyleColor()
 
 			imgui.SameLine()
@@ -108,7 +108,7 @@ hc_bravo_configurator_wnd = nil           -- flag for the show_wnd set to nil so
 
 function hc_bravo_configurator_show_wnd() -- This is called when user toggles window on/off, if the next toggle is for ON
 	hc_bravo_configurator_wnd = float_wnd_create(800, 500, 1, true)
-	float_wnd_set_title(hc_bravo_configurator_wnd, "Honeycomb Bravo Configurator " .. VERSION)
+		float_wnd_set_title(hc_bravo_configurator_wnd, "Honeycomb Bravo Configurator " .. VERSION)
 	float_wnd_set_imgui_builder(hc_bravo_configurator_wnd, "hc_bravo_configurator_on_build")
 end
 
