@@ -15,7 +15,7 @@ MASTER_WARN,sim/cockpit2/annunciators/master_warning,>,0.01,any,description
 FIRE,sim/cockpit2/annunciators/engine_fires,>,0.01,any,description
 OIL_LOW_P,sim/flightmodel/engine/ENGN_oil_press,<,0.075,any,description
 FUEL_LOW_P,sim/cockpit2/engine/indicators/fuel_pressure_psi,<,12,any,description
-ANTI_ICE,aerobask/iceprot/sw_eng1;aerobask/iceprot/sw_eng2;aerobask/iceprot/sw_wshld2;aerobask/iceprot/sw_wshld1,==,1,any,description
+ANTI_ICE,aerobask/iceprot/sw_eng1;aerobask/iceprot/sw_eng2;aerobask/iceprot/sw_wshld2;aerobask/iceprot/sw_wshld1;aerobask/iceprot/sw_wingstab,==;==;==;==;==,1;1;1;1;2,any,description
 ENG_STARTER,sim/cockpit2/engine/actuators/starter_hit,>,0.01,any,description
 APU,sim/cockpit/electrical/gpu_on,==,1,any,description
 MASTER_CAUTION,sim/cockpit/warnings/annunciators/master_caution,>,0.01,any,description
