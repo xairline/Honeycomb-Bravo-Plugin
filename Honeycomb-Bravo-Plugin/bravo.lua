@@ -74,14 +74,6 @@ function send_hid_data()
     if bytes_written == -1 then
         write_log('ERROR Feature report write failed, an error occurred')
         write_log('INOF wait for bravo reconnect ...')
-        while true do
-            pcall(hid_close(BRAVO))
-            BRAVO = hid_open(10571, 6401)
-            if BRAVO ~= nil then
-                write_log('INFO Honeycomb Bravo Throttle Quadrant detected.')
-                break
-            end
-        end
     elseif bytes_written < 65 then
         write_log('ERROR Feature report write failed, only ' .. bytes_written .. ' bytes written')
     else

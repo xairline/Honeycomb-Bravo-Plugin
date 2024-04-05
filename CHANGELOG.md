@@ -1,4 +1,6 @@
 # Change Log
+## 2.2.1:
+    - remove reconnect logic that blocks XP flight loop
 ## 2.2.0:
     - Support editing in the UI, it automatically updates profile
 ## 2.1.0:
