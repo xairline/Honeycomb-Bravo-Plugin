@@ -1,3 +1,5 @@
+>NOTE: Use in sim editor
+
 # How to create/modify CSV file
 This document describes how to use the csv file provided with the repo. A user should be able to modify existing file to their like or create a new one for another airplne
 

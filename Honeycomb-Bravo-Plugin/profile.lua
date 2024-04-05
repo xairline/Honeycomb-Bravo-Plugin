@@ -85,7 +85,9 @@ function bind_datarefs(filename)
             DATAREFS[name] = {
                 datarefs = my_tbl,
                 conditions =
-                    value["conditions"]
+                    value["conditions"],
+                description = value["description"]
+
             }
             -- store to logs for debugging
             dumpTable(DATAREFS)
@@ -94,4 +96,47 @@ function bind_datarefs(filename)
     end
     write_log('INFO No CSV Profile found for ' .. PLANE_ICAO)
     XPLMSpeakString("Warning, No Honeycomb Bravo CSV Profile found for:" .. PLANE_ICAO)
+end
+
+function save_profile()
+    local file = io.open(SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv', 'w')
+    file:write('name,datarefs,operators,thresholds,conditions,description\n')
+    if file then
+        for key, value in pairs(DATAREFS) do
+            file:write(key .. ',')
+            for i = 1, #value["datarefs"] do
+                file:write(value["datarefs"][i][1]["refname"])
+                if i < #value["datarefs"] then
+                    file:write(';')
+                end
+            end
+            file:write(',')
+            for i = 1, #value["datarefs"] do
+                file:write(value["datarefs"][i]["operator"])
+                if i < #value["datarefs"] then
+                    file:write(';')
+                end
+            end
+            file:write(',')
+            for i = 1, #value["datarefs"] do
+                file:write(value["datarefs"][i]["threshold"])
+                if i < #value["datarefs"] then
+                    file:write(';')
+                end
+            end
+            file:write(',')
+            file:write(value["conditions"])
+            file:write(',')
+            if value["description"] then
+                file:write(value["description"])
+            else
+                file:write('No description')
+            end
+            file:write('\n')
+        end
+        file:close()
+        write_log('INFO Profile saved to ' .. SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv')
+    else
+        write_log('ERROR Unable to save profile to ' .. SCRIPT_DIRECTORY .. 'profiles/' .. PLANE_ICAO .. '.csv')
+    end
 end

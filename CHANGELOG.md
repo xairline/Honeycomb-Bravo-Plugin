@@ -1,4 +1,6 @@
 # Change Log
+## 2.2.0:
+    - Support editing in the UI, it automatically updates profile
 ## 2.1.0:
     - Fix anti ice on E55P
     - Add Simple in-sim UI to help developing/verifying profiles
