@@ -53,20 +53,20 @@ function hc_bravo_profile_editor_on_build(hc_bravo_profile_editor_wnd, x, y) --<
 
 			local refname_changed, new_refname = imgui.InputText("##" .. key .. "-" .. i .. "-refname", datarefs[i][1]
 				["refname"], 80)
-			if refname_changed then
-				local df_var = XPLMFindDataRef(new_refname)
-				if df_var ~= nil then
-					datarefs[i][1] = dataref_table(new_refname)
-					imgui.PushStyleColor(imgui.constant.Col.Text, 0xFFA8A800)
-					imgui.TextUnformatted("modifying")
-					imgui.PopStyleColor()
-					save_profile()
-				else
-					imgui.PushStyleColor(imgui.constant.Col.Text, 0xFF0000CD)
-					imgui.TextUnformatted("not found")
-					imgui.PopStyleColor()
-				end
-			end
+			-- if refname_changed then
+			-- 	local df_var = XPLMFindDataRef(new_refname)
+			-- 	if df_var ~= nil then
+			-- 		datarefs[i][1] = dataref_table(new_refname)
+			-- 		imgui.PushStyleColor(imgui.constant.Col.Text, 0xFFA8A800)
+			-- 		imgui.TextUnformatted("modifying")
+			-- 		imgui.PopStyleColor()
+			-- 		save_profile()
+			-- 	else
+			-- 		imgui.PushStyleColor(imgui.constant.Col.Text, 0xFF0000CD)
+			-- 		imgui.TextUnformatted("not found")
+			-- 		imgui.PopStyleColor()
+			-- 	end
+			-- end
 			imgui.PopStyleColor()
 
 			imgui.SameLine()
@@ -74,10 +74,10 @@ function hc_bravo_profile_editor_on_build(hc_bravo_profile_editor_wnd, x, y) --<
 			imgui.SetNextItemWidth(80)
 			local operator_changed, new_operator = imgui.InputText("##" .. key .. "-" .. i .. "-operator",
 				datarefs[i]["operator"], 60)
-			if operator_changed then
-				datarefs[i]["operator"] = new_operator
-				save_profile()
-			end
+			-- if operator_changed then
+			-- 	datarefs[i]["operator"] = new_operator
+			-- 	save_profile()
+			-- end
 			imgui.PopStyleColor()
 
 			imgui.SameLine()
@@ -85,10 +85,10 @@ function hc_bravo_profile_editor_on_build(hc_bravo_profile_editor_wnd, x, y) --<
 			imgui.SetNextItemWidth(80)
 			local threshold_changed, new_threshold = imgui.InputText("##" .. key .. "-" .. i .. "-threshold",
 				datarefs[i]["threshold"], 60)
-			if threshold_changed then
-				datarefs[i]["threshold"] = new_threshold
-				save_profile()
-			end
+			-- if threshold_changed then
+			-- 	datarefs[i]["threshold"] = new_threshold
+			-- 	save_profile()
+			-- end
 			imgui.PopStyleColor()
 
 			imgui.SameLine()
