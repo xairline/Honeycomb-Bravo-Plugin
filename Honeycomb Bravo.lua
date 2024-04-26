@@ -120,6 +120,8 @@ elseif PROFILE == "FF/757" or PROFILE == "FF/767" then
 	vs = dataref_table('757Avionics/ap/vs_act')
 	altitude = dataref_table('757Avionics/ap/alt_act')
 	vs_multiple = 100
+	-- elseif PROFILE == "MD11" then
+	-- 	altitude = dataref_table('Rotate/aircraft/controls_c/fgs_alt_sel_up')
 end
 
 function change_value(increase)
@@ -165,6 +167,13 @@ function change_value(increase)
 		else
 			airspeed[0] = math.max(0, (math.floor(airspeed[0]) + (sign * factor)))
 		end
+		if PROFILE == "MD11" then
+			if increase == true then
+				command_once("Rotate/aircraft/controls_c/fgs_spd_sel_up")
+			else
+				command_once("Rotate/aircraft/controls_c/fgs_spd_sel_dn")
+			end
+		end
 	elseif mode == 'CRS' then
 		if course[0] == 0 and sign == -1 then
 			course[0] = 359
@@ -177,10 +186,31 @@ function change_value(increase)
 		else
 			heading[0] = (heading[0] + (sign * factor)) % 360
 		end
+		if PROFILE == "MD11" then
+			if increase == true then
+				command_once("Rotate/aircraft/controls_c/fgs_hdg_sel_up")
+			else
+				command_once("Rotate/aircraft/controls_c/fgs_hdg_sel_dn")
+			end
+		end
 	elseif mode == 'VS' then
 		vs[0] = math.floor((vs[0] / vs_multiple) + (sign * factor)) * vs_multiple
+		if PROFILE == "MD11" then
+			if increase == true then
+				command_once("Rotate/aircraft/controls_c/fgs_pitch_sel_up")
+			else
+				command_once("Rotate/aircraft/controls_c/fgs_pitch_sel_dn")
+			end
+		end
 	elseif mode == 'ALT' then
 		altitude[0] = math.max(0, math.floor((altitude[0] / alt_multiple) + (sign * factor)) * alt_multiple)
+		if PROFILE == "MD11" then
+			if increase == true then
+				command_once("Rotate/aircraft/controls_c/fgs_alt_sel_up")
+			else
+				command_once("Rotate/aircraft/controls_c/fgs_alt_sel_dn")
+			end
+		end
 	end
 	last_mode = mode
 	last_time = os.clock()

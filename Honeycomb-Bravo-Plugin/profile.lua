@@ -17,6 +17,9 @@ function get_profile()
     elseif PLANE_ICAO == "A319" or PLANE_ICAO == "A20N" or PLANE_ICAO == "A321" or PLANE_ICAO == "A21N" or PLANE_ICAO == "A346" then
         -- Toliss A32x
         PROFILE = "Toliss/32x"
+    elseif PLANE_ICAO == "MD11" then
+        -- Rotate MD11
+        PROFILE = "MD11"
     end
     write_log('INFO Aircraft identified as ' .. PLANE_ICAO .. ' with filename ' .. AIRCRAFT_FILENAME)
     write_log('INFO Using profile ' .. PROFILE)
