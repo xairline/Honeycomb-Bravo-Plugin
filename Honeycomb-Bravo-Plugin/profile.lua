@@ -14,7 +14,7 @@ function get_profile()
     elseif PLANE_ICAO == "C172" and AIRCRAFT_FILENAME == "Cessna_172SP.acf" then
         -- Laminar C172
         PROFILE = "laminar/C172"
-    elseif PLANE_ICAO == "A319" or PLANE_ICAO == "A20N" or PLANE_ICAO == "A321" or PLANE_ICAO == "A21N" or PLANE_ICAO == "A346" then
+    elseif PLANE_ICAO == "A319" or PLANE_ICAO == "A20N" or PLANE_ICAO == "A321" or PLANE_ICAO == "A21N" or PLANE_ICAO == "A346" or PLANE_ICAO == "A339" then
         -- Toliss A32x
         PROFILE = "Toliss/32x"
     elseif PLANE_ICAO == "MD11" then
