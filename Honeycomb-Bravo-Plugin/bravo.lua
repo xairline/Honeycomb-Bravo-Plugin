@@ -172,7 +172,7 @@ function door_led()
 end
 
 function handle_led_changes()
-    if not check_datarefs(DATAREFS['BUS_VOLTAGE']) then
+    if not check_datarefs(DATAREFS['BUS_VOLTAGE']) and BUFFER_MODIFIED == true then
         MASTER_STATE = false
         all_leds_off()
         send_hid_data()
